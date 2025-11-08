@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 خمن الشعار</title>
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+      background: #f5f6ff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #1a237e;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+    .game-box {
+      background: #fff;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 350px;
+    }
+    .logo-box {
+      width: 140px;
+      height: 140px;
+      margin: 10px auto;
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-box img {
+      width: 75%;
+      height: 75%;
+      object-fit: contain;
+      filter: blur(8px);
+      transition: 0.5s ease;
+    }
+    .clear {
+      filter: blur(0);
+      transform: scale(1.05);
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 9px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #1a237e;
+      color: white;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #303f9f;
+    }
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .next-btn {
+      margin-top: 12px;
+      background: #f1f1f1;
+      color: #1a237e;
+      border: 1px solid #c5cae9;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 خمن الشعار</h1>
+  <div class="game-box">
+    <div class="logo-box">
+      <img id="logoImg" src="" alt="logo">
+    </div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn">التالي ➜</button>
+  </div>
+
+  <script>
+    const logos = [
+      { src: "nike.png", options: ["Nike", "Adidas", "Puma", "Reebok"], answer: "Nike" },
+      { src: "apple.png", options: ["Apple", "Samsung", "Dell", "Sony"], answer: "Apple" },
+      { src: "youtube.png", options: ["YouTube", "Netflix", "TikTok", "Spotify"], answer: "YouTube" },
+      { src: "google.png", options: ["Google", "Microsoft", "Slack", "Amazon"], answer: "Google" },
+      { src: "insta.png", options: ["Instagram", "Pinterest", "Reddit", "Snapchat"], answer: "Instagram" },
+      { src: "spotify.png", options: ["Spotify", "SoundCloud", "TikTok", "Discord"], answer: "Spotify" },
+      { src: "discord.png", options: ["Spotify", "Snapchat", "TikTok", "Discord"], answer: "Discord" },
+      { src: "adidas.png", options: ["Nike", "Adidas", "Puma", "Reebok"], answer: "Adidas" },
+      { src: "puma.png", options: ["Nike", "Adidas", "Puma", "Reebok"], answer: "Puma" }
+    ];
+
+    let current = 0;
+    const logoImg = document.getElementById("logoImg");
+    const optionsBox = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function loadLogo() {
+      const logo = logos[current];
+      logoImg.src = logo.src;
+      logoImg.classList.remove("clear");
+      feedback.textContent = "";
+      optionsBox.innerHTML = "";
+      logo.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt, logo.answer);
+        optionsBox.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, correct) {
+      if (selected === correct) {
+        feedback.style.color = "green";
+        feedback.textContent = "✔️ صحيح!";
+        logoImg.classList.add("clear");
+      } else {
+        feedback.style.color = "red";
+        feedback.textContent = "❌ خطأ!";
+      }
+    }
+
+    nextBtn.onclick = () => {
+      current = (current + 1) % logos.length;
+      loadLogo();
+    };
+
+    loadLogo();
+  </script>
+</body>
+</html>
+
